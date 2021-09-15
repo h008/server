@@ -1110,6 +1110,14 @@ span.ui-icon {
 
 /* ---- TOOLTIPS ---- */
 
+body {
+	div:last-child {
+		&.bs-tooltip-right {
+			left: -10px !important;
+		}
+	}
+}
+
 .extra-data {
 	padding-right: 5px !important;
 }

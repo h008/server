@@ -41,7 +41,6 @@ use OCP\Accounts\IAccountProperty;
 use OCP\App\IAppManager;
 use OCP\AppFramework\Http\TemplateResponse;
 use OCP\AppFramework\Services\IInitialState;
-// use OCP\IL10N;
 use OCP\IRequest;
 use OCP\IURLGenerator;
 use OCP\IUserManager;
@@ -49,7 +48,6 @@ use OCP\IUserSession;
 use OCP\Profile\IActionManager;
 use OCP\Profile\IProfileAction;
 use OCP\UserStatus\IManager as IUserStatusManager;
-use Psr\Container\ContainerInterface;
 
 class ProfileController extends Controller {
 
@@ -58,12 +56,6 @@ class ProfileController extends Controller {
 
 	/** @var TrustedServers */
 	private $trustedServers;
-
-	/** @var IL10N */
-	// private $l10n;
-
-	/** @var ContainerInterface */
-	// private $containerInterface;
 
 	/** @var IUserSession */
 	private $userSession;
@@ -89,30 +81,26 @@ class ProfileController extends Controller {
 	public function __construct(
 		$appName,
 		IRequest $request,
-		// IL10N $l10n,
-		ContainerInterface $containerInterface,
-		IURLGenerator $urlGenerator,
-		TrustedServers $trustedServers,
-		IUserSession $userSession,
-		IUserManager $userManager,
 		IAccountManager $accountManager,
-		IInitialState $initialStateService,
+		IActionManager $actionManager,
 		IAppManager $appManager,
+		IInitialState $initialStateService,
+		IURLGenerator $urlGenerator,
+		IUserManager $userManager,
+		IUserSession $userSession,
 		IUserStatusManager $userStatusManager,
-		IActionManager $actionManager
+		TrustedServers $trustedServers
 	) {
 		parent::__construct($appName, $request);
-		// $this->l10n = $l10n;
-		$this->containerInterface = $containerInterface;
-		$this->urlGenerator = $urlGenerator;
-		$this->trustedServers = $trustedServers;
-		$this->userSession = $userSession;
-		$this->userManager = $userManager;
 		$this->accountManager = $accountManager;
-		$this->initialStateService = $initialStateService;
-		$this->appManager = $appManager;
-		$this->userStatusManager = $userStatusManager;
 		$this->actionManager = $actionManager;
+		$this->appManager = $appManager;
+		$this->initialStateService = $initialStateService;
+		$this->trustedServers = $trustedServers;
+		$this->urlGenerator = $urlGenerator;
+		$this->userManager = $userManager;
+		$this->userSession = $userSession;
+		$this->userStatusManager = $userStatusManager;
 	}
 
 	public const PROFILE_DISPLAY_PROPERTIES = [
@@ -141,15 +129,13 @@ class ProfileController extends Controller {
 	];
 
 	/**
-	 * Useful annotations
-	 * @NoAdminRequired
-	 */
-
-	/**
 	 * FIXME Public page annotation blocks the user session somehow
+	 *
 	 * @PublicPage
 	 * @UseSession
 	 * @NoCSRFRequired
+	 * @NoAdminRequired
+	 * @NoSubAdminRequired
 	 */
 	public function index(string $userId): TemplateResponse {
 		if (!$this->userManager->userExists($userId)) {
@@ -169,7 +155,7 @@ class ProfileController extends Controller {
 			FILTER_NULL_ON_FAILURE,
 		);
 
-		if (empty($profileEnabled)) {
+		if (!$profileEnabled) {
 			return new TemplateResponse(
 				'core',
 				'404-page',
@@ -292,6 +278,7 @@ class ProfileController extends Controller {
 		$isLoggedIn = $this->userSession->isLoggedIn();
 		$userId = $account->getUser()->getUID();
 		$talkEnabled = $this->appManager->isEnabledForUser('spreed', $account->getUser());
+		// $talkEnabled = false;
 
 		if ($talkEnabled) {
 			$this->actionManager->registerAction(TalkAction::class, $userId);
@@ -301,10 +288,10 @@ class ProfileController extends Controller {
 			$scope = $account->getProperty($property)->getScope();
 			$value = $account->getProperty($property)->getValue();
 
-			if ($scope === IAccountManager::SCOPE_PRIVATE && !$isLoggedIn) {
-				return;
-			}
 			// The other less strict scopes all allow public link access
+			if ($scope === IAccountManager::SCOPE_PRIVATE && !$isLoggedIn) {
+				continue;
+			}
 
 			if (!empty($value)) {
 				switch ($property) {
@@ -332,6 +319,7 @@ class ProfileController extends Controller {
 					'name' => $action->getName(),
 					'icon' => $action->getIcon(),
 					'title' => $action->getTitle(),
+					'label' => $action->getLabel(),
 					'target' => $action->getTarget(),
 				];
 			},
