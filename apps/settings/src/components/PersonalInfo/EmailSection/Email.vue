@@ -32,6 +32,7 @@
 				autocomplete="on"
 				autocorrect="off"
 				required="true"
+				:readonly="isNotificationEmail"
 				@input="onEmailChange">
 
 			<div class="email-actions-container">
