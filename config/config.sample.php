@@ -1490,13 +1490,6 @@ $CONFIG = [
  */
 'sharing.enable_share_mail' => true,
 
-/**
- * Set to true to always transfer incoming shares by default
- * when running "occ files:transfer-ownership".
- * Defaults to false, so incoming shares are not transferred if not specifically requested
- * by a command line argument.
- */
-'transferIncomingShares' => false,
 
 /**
  * All other configuration options
@@ -1549,24 +1542,6 @@ $CONFIG = [
  * http://mechanics.flite.com/blog/2014/07/29/using-innodb-large-prefix-to-avoid-error-1071/
  */
 'mysql.utf8mb4' => false,
-
-/**
- * For search queries in the database, a default collation – depending on the
- * character set – is chosen. In some cases a different behaviour is desired,
- * for instances when a accent sensitive search is desired.
- *
- * MariaDB and MySQL have an overlap in available collations, but also
- * incompatible ones, also depending on the version of the database server.
- *
- * This option allows to override the automatic choice. Example:
- *
- * 'mysql.collation' => 'utf8mb4_0900_as_ci',
- *
- * This setting has no effect on setup or creating tables. In those cases
- * always utf8[mb4]_bin is being used. This setting is only taken into
- * consideration in SQL queries that utilize LIKE comparison operators.
- */
-'mysql.collation' => null,
 
 /**
  * Database types that are supported for installation.
