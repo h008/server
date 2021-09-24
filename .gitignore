@@ -51,6 +51,8 @@
 
 # apps modules
 /apps/*/node_modules
+/apps/*/composer/composer/installed.php
+/custom_apps/
 
 
 # ignore themes except the example and the README
