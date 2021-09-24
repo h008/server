@@ -82,5 +82,5 @@ Options -Indexes
 </IfModule>
 #### DO NOT CHANGE ANYTHING ABOVE THIS LINE ####
 
-ErrorDocument 403 /
-ErrorDocument 404 /
+ErrorDocument 403 //
+ErrorDocument 404 //

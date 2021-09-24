@@ -30,7 +30,9 @@
 			@rename="rename"
 			@delete="deleteToken"
 			@wipe="wipeToken" />
+		<!--
 		<AuthTokenSetupDialogue v-if="canCreateToken" :add="addNewToken" />
+	    -->
 	</div>
 </template>
 
@@ -40,7 +42,7 @@ import confirmPassword from '@nextcloud/password-confirmation'
 import { generateUrl } from '@nextcloud/router'
 
 import AuthTokenList from './AuthTokenList'
-import AuthTokenSetupDialogue from './AuthTokenSetupDialogue'
+// import AuthTokenSetupDialogue from './AuthTokenSetupDialogue'
 
 const confirm = () => {
 	return new Promise(resolve => {
@@ -66,7 +68,6 @@ const tap = cb => val => {
 export default {
 	name: 'AuthTokenSection',
 	components: {
-		AuthTokenSetupDialogue,
 		AuthTokenList,
 	},
 	props: {
