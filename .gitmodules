@@ -2,5 +2,5 @@
 	path = 3rdparty
 	url = https://github.com/nextcloud/3rdparty.git
 [submodule "twofactor_email"]
-	path = twofactor_email
+	path = custom_apps/twofactor_email
 	url = https://github.com/h008/twofactor_email.git
