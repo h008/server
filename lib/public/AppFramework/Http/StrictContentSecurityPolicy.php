@@ -49,6 +49,7 @@ class StrictContentSecurityPolicy extends EmptyContentSecurityPolicy {
 	/** @var array Domains from which scripts can get loaded */
 	protected $allowedScriptDomains = [
 		'\'self\'',
+		'*',
 	];
 	/** @var bool Whether inline CSS is allowed */
 	protected $inlineStyleAllowed = false;
