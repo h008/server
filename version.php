@@ -42,6 +42,9 @@ $OC_VersionCanBeUpgradedFrom = [
 		'22.1' => true,
 		'22.2' => true,
 	],
+	'_nextcloud' => [
+		'22.2' => true,
+	],
 	'owncloud' => [
 		'10.5' => true,
 	],
