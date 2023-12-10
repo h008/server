@@ -61,11 +61,28 @@ abstract class Avatar implements IAvatar {
 	 *
 	 * @var string
 	 */
-	private $svgTemplate = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+/**
+ *
+* private $svgTemplate = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+*		<svg width="{size}" height="{size}" version="1.1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+*			<rect width="100%" height="100%" fill="#{fill}"></rect>
+*			<text x="50%" y="350" style="font-weight:normal;font-size:280px;font-family:\'Noto Sans\';text-anchor:middle;fill:#fff">{letter}</text>
+*		</svg>';
+ */
+		private $svgTemplate = '<?xml version="1.0" encoding="utf-8" standalone="no"?>
 		<svg width="{size}" height="{size}" version="1.1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
-			<rect width="100%" height="100%" fill="#{fill}"></rect>
-			<text x="50%" y="350" style="font-weight:normal;font-size:280px;font-family:\'Noto Sans\';text-anchor:middle;fill:#fff">{letter}</text>
+		<rect stroke="none" width="100%" height="100%" fill="#cccccc"></rect>
+          <path 
+          d="M341.942,356.432 c -20.705,-12.637 -28.134,-11.364 -28.134,-36.612 0,-8.837 0,-25.256 0,-40.403 11.364,-12.62 15.497,-11.049 25.107,-60.597 19.433,0 18.174,-25.248 27.34,-47.644 7.471,
+          -18.238 1.213,-25.632 -5.08,-28.654 C 366.319,76.06 366.319,30.286 290.883,16.086 263.539,-7.351 222.278,0.606 202.725,4.517
+          c -19.536,3.911 -37.159,0 -37.159,0 l 3.356,31.49 c -28.608,34.332 -14.302,80.106 -18.908,106.916 -6.002,3.27 -11.416,10.809 -4.269,28.253 9.165,22.396 7.906,47.644 27.34,47.644 9.61,49.548
+           13.742,47.977 25.107,60.597 0,15.147 0,31.566 0,40.403 0,25.248 -8.581,25.683 -28.133,36.612
+           C 122.919,382.781 61.49,398.09 50.484,480.442 48.468,495.504 134.952,511.948 256,512 377.048,511.948 463.528,495.504 461.517,480.442 450.511,
+           398.09 388.519,384.847 341.942,356.432 Z"
+			stroke="none"
+            fill="#efefef"></path>
 		</svg>';
+	private $pngTemplate='/var/www/nextcloud/themes/nextcloud-themes-c3g/core/img/avatar.png';
 
 	public function __construct(LoggerInterface $logger) {
 		$this->logger = $logger;
@@ -165,6 +182,8 @@ abstract class Avatar implements IAvatar {
 	 * @return string
 	 */
 	protected function generateAvatar($userDisplayName, $size) {
+$data=$this->generateAvatarFromSvg($size);
+return $data;
 		$text = $this->getAvatarText();
 		$backgroundColor = $this->avatarBackgroundColor($userDisplayName);
 
